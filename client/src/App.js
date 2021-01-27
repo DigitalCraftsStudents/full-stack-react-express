@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+
 import Login from './components/Login';
 import Logout from './components/Logout';
 import Todos from './components/Todos';
@@ -9,6 +10,18 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [todos, setTodos] = useState([]);
 
+  async function retrieveTodos() {
+    const resp = await axios.get('/api/todos');
+    console.log(resp);
+
+    // axios puts the stuff I care about in .data
+    // My server sends back an object that looks like this:
+   
+    setTodos(resp.data.todos);
+  }
+  
+  // These are the callbacks I'll pass to
+  // my Login and Logout components
   function doLogin() {
     console.log('sweet you are logged in now, buddy');
     setIsLoggedIn(true);
@@ -35,6 +48,13 @@ function App() {
     }
     checkLogin();    
   }, []);
+
+  useEffect(() => {
+    console.log(`Value of isLoggedIn: ${isLoggedIn}`);
+    if (isLoggedIn) {
+      retrieveTodos();
+    }
+  }, [isLoggedIn]);
   
   return (
     <div className="App">

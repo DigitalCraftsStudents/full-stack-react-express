@@ -56,8 +56,23 @@ If so, then you'd want to manage them globally (because the parent has to pass t
 
 Those features sound more interesting, and I'd probably want the flexibility anyway. So, I'm going to go with that.
 
-
-
 ---
 
+When do I retrieve the todos?
 
+I can only get them if I'm logged in, so that means:
+
+- at the end of `doLogin()`
+- but inside `checkLogin()`, but only if I'm actually logged in.
+
+It's like I need a ...side effect... that runs when I modify the `isLoggedIn` variable. The side effect function can check the value of `isLoggedIn`. If it's true, then I grab the todos.
+
+Question: don't I only need to get todos if I'm switching from `isLoggedIn===false` to `isLoggedIn===true`?
+
+I wonder what the docs say about args that my `useEffect()` callback will receive...
+
+It won't. There's a [stackoverflow discussion](https://stackoverflow.com/questions/53446020/how-to-compare-oldvalues-and-newvalues-on-react-hooks-useeffect) and a [blog post](https://blog.logrocket.com/how-to-get-previous-props-state-with-react-hooks/) about using `useRef()` in a custom hook, but I don't think I want to go there.
+
+I'm going to stick with a second `useEffect()`, but have it "watch" for changes to `isLoggedIn`. If `isLoggedIn===true` get the Todos and pass them to `setTodos()`.
+
+This will "trick" react into re-rendering, which re-renders the Todos component with the array of todos from the api.

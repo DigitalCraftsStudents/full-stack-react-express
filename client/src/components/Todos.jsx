@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 
 function Todos(props) {
-  // const [todos, setTodos] = useState([]);
   return (
     <section>
-      Todos are shown here
+      <h2>Todos:</h2>
+      <ul>
+        {props.todos.map(todo => (
+          <li>{todo.title}</li>
+        ))}
+      </ul>
     </section>
   );
 }
