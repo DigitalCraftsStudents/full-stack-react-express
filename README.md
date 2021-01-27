@@ -1,6 +1,37 @@
 # Full Stack React + Express
 
-Todo app
+Todo app (of course)
+
+To install dependencies for React:
+
+```sh
+cd client
+yarn # or npm install
+```
+
+To install dependencies for Express:
+
+```sh
+cd server
+yarn # or npm install
+```
+
+To run the client:
+
+```sh
+cd client
+yarn start # or npm start
+```
+
+To run the server:
+
+```sh
+cd server
+cp dist.env .env
+code .env # put in your database values and session secret
+npm run dev
+```
+
 
 ## While developing
 
