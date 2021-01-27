@@ -7,7 +7,8 @@ import axios from 'axios';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const [todos, setTodos] = useState([]);
+  
   function doLogin() {
     console.log('sweet you are logged in now, buddy');
     setIsLoggedIn(true);
@@ -17,7 +18,6 @@ function App() {
     console.log('all logged out');
     setIsLoggedIn(false);
   }
-
 
   useEffect(() => {
     async function checkLogin() {
@@ -39,12 +39,14 @@ function App() {
   return (
     <div className="App">
       { isLoggedIn ?
-      <Logout doLogout={doLogout} />        
+        <>
+          <Logout doLogout={doLogout} />
+          <Todos />
+        </>
       :
       <Login doLogin={doLogin} />
     }
 
-      <Todos />
 
     </div>
   );
