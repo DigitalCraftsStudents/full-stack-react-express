@@ -76,3 +76,51 @@ It won't. There's a [stackoverflow discussion](https://stackoverflow.com/questio
 I'm going to stick with a second `useEffect()`, but have it "watch" for changes to `isLoggedIn`. If `isLoggedIn===true` get the Todos and pass them to `setTodos()`.
 
 This will "trick" react into re-rendering, which re-renders the Todos component with the array of todos from the api.
+
+I do have to change what I'm doing with `retrieveTodos()`:
+
+- the todos are actually in `resp.data.todos`
+
+---
+
+For editing a todo, I've got a couple options:
+
+Option #1: have the TodoForm do all the work
+
+- receive the ID from props
+- have the form component GET the todo
+- manage the form elements in state
+- POST the updates from the form component
+  - and save to App's state
+
+Option #2: have the App do all the work
+
+- send the todo down as a prop
+- manage the form elements in state
+- let the form send the changes up to App
+- have App POST the update to the api
+
+The difference being whether I want the TodoForm to be aware of the server.
+To me, it almost seems like it's better if it doesn't. That way, one could choose to work entirely off of App's state, and sync to the server as necessary.
+
+Option #1 lets me develop the TodoForm in a more "self-contained" way. However, it does require that I'm logged in (which is handled by the App).
+
+I'm going with option #2.
+It's not necessarily better, but I see an advantage in making the app be more offline-friendly. (Once the todos are loaded, you can still work with the todos without a network connection.)
+
+---
+
+Making the editing form
+
+I am going to make it reusable for editing and for creating.
+
+It'll need a `useEffect()` that watches the value of `props`.
+Inside the side effect callback, I can call `setTitle()
+
+For my form, I need to:
+
+- handle onSubmit (so we can `e.preventDefault()`)
+  - when we submit, we need to send the whole todo object even though we're only editing the title
+- handle onChange (for the title input)
+
+

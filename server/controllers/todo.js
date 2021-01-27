@@ -10,6 +10,29 @@ const showForm = (req, res) => {
   });
 };
 
+const updateTodo = async (req, res) => {
+  const { title, isComplete } = req.body;
+  const { id } = req.params;
+  try {
+    const updated = await Todo.update({
+      title,
+      isComplete
+    }, {
+      where: {
+        id
+      }
+    });
+    res.status(200).json({
+      message: "updated",
+    });
+    
+  } catch (e) {
+    res.status(400).json({
+      message: "could not update",
+    });
+  }
+};
+
 const processForm = async (req, res) => {
   const { title } = req.body;
   const { id } = req.session.user;
@@ -77,5 +100,6 @@ const list = async (req, res) => {
 module.exports = {
   showForm,
   processForm,
-  list
+  list,
+  updateTodo
 };

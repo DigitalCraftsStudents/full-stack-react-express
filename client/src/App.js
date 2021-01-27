@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Login from './components/Login';
 import Logout from './components/Logout';
 import Todos from './components/Todos';
+import TodoForm from './components/TodoForm';
 
 import axios from 'axios';
 
@@ -10,14 +11,31 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [todos, setTodos] = useState([]);
 
+  // This is for selecting a todo to edit.
+  const [todoId, setTodoId] = useState(0); 
+  
   async function retrieveTodos() {
     const resp = await axios.get('/api/todos');
     console.log(resp);
 
     // axios puts the stuff I care about in .data
-    // My server sends back an object that looks like this:
-   
+    // My server sends back an object that looks like this:   
     setTodos(resp.data.todos);
+  }
+
+  async function updateTodo(todo) {
+    try {      
+      const resp = await axios.put(`/api/todos/${todo.id}`, todo);    
+      // One-liner that should be expanded during the demo
+      setTodos(todos.map(t => t.id === todo.id ? todo : t));
+    } catch (e) {
+      console.log('there was an error...we should message the user');
+    }    
+  }
+
+  function chooseTodo(id) {
+    console.log('they clicked a todo to edit');
+    setTodoId(id);
   }
   
   // These are the callbacks I'll pass to
@@ -62,7 +80,11 @@ function App() {
         <>
           <h1>Welcome to the Todo app!</h1>
           <Logout doLogout={doLogout} />
-          <Todos todos={todos} />
+          <Todos todos={todos} chooseTodo={chooseTodo} />
+          { todoId !== 0 && <TodoForm
+                              todo={todos.find(t => t.id === todoId)}
+                              updateTodo={updateTodo}
+                            />}
         </>
       :
       <Login doLogin={doLogin} />

@@ -6,7 +6,9 @@ function Todos(props) {
       <h2>Todos:</h2>
       <ul>
         {props.todos.map(todo => (
-          <li>{todo.title}</li>
+          <li onClick={(e) => {
+            props.chooseTodo(todo.id);
+          }}>{todo.title}</li>
         ))}
       </ul>
     </section>
