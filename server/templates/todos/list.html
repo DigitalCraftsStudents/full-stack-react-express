@@ -1,0 +1,10 @@
+${header}
+<h1>Todo list</h1>
+<a href="/members-only">Back</a>
+<br>
+<a href="/todos/new">Add Todo</a>
+
+<ul>
+  ${todos.map(t => `<li>${t.title}</li>`).join('')}
+  </ul>
+${footer}
