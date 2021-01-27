@@ -8,7 +8,7 @@ import axios from 'axios';
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [todos, setTodos] = useState([]);
-  
+
   function doLogin() {
     console.log('sweet you are logged in now, buddy');
     setIsLoggedIn(true);
@@ -19,6 +19,7 @@ function App() {
     setIsLoggedIn(false);
   }
 
+  // Need to check if we're logged in "on page load"
   useEffect(() => {
     async function checkLogin() {
       // see if we're logged in
@@ -32,22 +33,20 @@ function App() {
         setIsLoggedIn(false);
       }
     }
-    checkLogin();
-    
+    checkLogin();    
   }, []);
   
   return (
     <div className="App">
       { isLoggedIn ?
         <>
+          <h1>Welcome to the Todo app!</h1>
           <Logout doLogout={doLogout} />
-          <Todos />
+          <Todos todos={todos} />
         </>
       :
       <Login doLogin={doLogin} />
     }
-
-
     </div>
   );
 }

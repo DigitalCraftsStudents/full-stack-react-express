@@ -43,6 +43,21 @@ Next, I can either do a Signup component, or I can work on Todos...
 
 I think Todos might be good. That more full CRUD.
 
+Question: do we store todos globally (in App.js) or in Todos?
+
+Answer: "it depends" on whether I only deal with Todos (listing, creating, editing, deleting) inside of the Todos component and any of its children.
+
+Would my app ever do something like the following:
+
+- Show a reminder about your next Todo in the global header?
+- Let you quickly create a Todo from some other part of the app (like a sidebar)?
+
+If so, then you'd want to manage them globally (because the parent has to pass the data down to the children/grand-children, etc. -- or you use the Context API, but that's still on the App level.)
+
+Those features sound more interesting, and I'd probably want the flexibility anyway. So, I'm going to go with that.
+
+
+
 ---
 
 
